@@ -3,7 +3,7 @@ import express from 'express';
 import service from './service/cacheKey.js';
 import * as path from "path";
 let app = express();
-const PORT = 9001
+const PORT = process.env.APP_PORT;
 app.get('/', function(req, res) {
   res.sendFile(path.join(process.cwd(),'./index.html'));
 });
