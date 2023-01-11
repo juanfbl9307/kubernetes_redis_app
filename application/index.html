@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Redis cache app</h1>
+<h2>Routes</h2>
+<p>/get, method: GET, headers: [key] ==> get a value of a key stored in cache</p>
+<p>/set, method: POST, headers: [key,value] ==> set a value for a key in cache</p>
+<p>/del, method: DELETE, headers: [key] ==> delete a value of a key stored in cache</p>
+
+<h1>Methods</h1>
+<p>
+    <label for="getKey">Search key:</label>
+    <input type="text" id="getKey" name="get">
+<div>
+    <button onclick="get()">Submit</button>
+</div>
+</p>
+
+<p>
+<label for="setKey">Set key/value:</label>
+<input type="text" id="setKey" name="key">
+<input type="text" id="setVal" name="val">
+<div>
+    <button onclick="set()">Submit</button>
+</div>
+</p>
+
+<p>
+    <label for="delKey">Delete key:</label>
+    <input type="text" id="delKey" name="del">
+<div>
+    <button onclick="del()">Submit</button>
+</div>
+</p>
+<%= MY_ENV_VAR %>
+<h2>Result</h2>
+<p id="result"></p>
+<h2>Result Event Stream</h2>
+<ul id="resultStream"></ul>
+
+<script>
+    const result = document.getElementById('result');
+    const listEl = document.querySelector('ul');
+    const PORT = port_number;
+
+    function get(){
+        let header = document.getElementById('getKey').value
+        fetch(`http://localhost:${PORT}/get`,{headers: {Key: header},method: 'GET'})
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                let res = `The value for the key: ${header} is ${data.value}`
+                result.innerHTML = res;
+                listEl.insertAdjacentHTML('beforeend', `<li>${res}</li>`);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
+    function set(){
+        let key = document.getElementById('setKey').value
+        let val = document.getElementById('setVal').value
+        fetch(`http://localhost:${PORT}/set`,{headers: {Key: key,Value:val},method: 'POST'})
+            .then(response => {
+                response.status === 200 ? console.log('success') : console.log('error');
+                return response;
+            })
+            .then(response => {
+                console.log(response);
+                let res = `The key: ${key} has been set to ${val}`
+                result.innerHTML = res;
+                listEl.insertAdjacentHTML('beforeend', `<li>${res}</li>`);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
+
+    function del(){
+        let key = document.getElementById('delKey').value
+        fetch(`http://localhost:${PORT}/del`,{headers: {Key: key},method: 'DELETE'})
+            .then(response => {
+                response.status === 200 ? console.log('success') : console.log('error');
+                return response;
+            })
+            .then(response => {
+                console.log(response);
+                let res = `The value for the key: ${key} has been deleted`
+                result.innerHTML = res;
+                listEl.insertAdjacentHTML('beforeend', `<li>${res}</li>`);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
+
+</script>
+
+</body>
+</html>

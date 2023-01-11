@@ -1,0 +1,21 @@
+version: '3.4'
+services:
+  application:
+    image: test-application:latest
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    ports:
+      - "9001:9001"
+    depends_on:
+      - redis
+    expose:
+      - "9001"
+    links:
+      - redis
+  redis:
+    image: redis:latest
+    hostname: redis
+    restart: always
+    ports:
+      - "6379:6379"
