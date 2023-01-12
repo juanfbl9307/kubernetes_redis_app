@@ -1,5 +1,0 @@
-redis:
-  port: 6379
-  image:
-    repository: nginx
-    tag: 1.17.1

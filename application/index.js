@@ -1,13 +1,15 @@
-//application that uses the express framework to create a server that listens on port 3000 and responds with a message when a request is made to the root URL (/).
 import express from 'express';
 import service from './service/cacheKey.js';
 import * as path from "path";
+//  express initialization
 let app = express();
 const PORT = process.env.APP_PORT;
+// Routes:
+// get expose the main page html file
 app.get('/', function(req, res) {
   res.sendFile(path.join(process.cwd(),'./index.html'));
 });
-
+// get the value of a key in redis cache by key name in header
 app.get('/get', async function(req, res) {
   let key = req.header('key');
   try {
@@ -18,7 +20,7 @@ app.get('/get', async function(req, res) {
     res.send("Internal error");
   }
 });
-
+// set the value of a key in redis cache by key name in header
 app.post('/set', async function(req, res) {
   let key = req.header('key');
   let val = req.header('value');
@@ -30,7 +32,7 @@ app.post('/set', async function(req, res) {
     res.sendStatus(500)
   }
 });
-
+// delete the value of a key in redis cache by key name in header
 app.delete('/del', async function(req, res) {
   let key = req.header('key');
   try {

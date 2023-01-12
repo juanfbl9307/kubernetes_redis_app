@@ -1,8 +1,8 @@
 app:
   port: 3000
   image:
-    repository: nginx
-    tag: 1.17.1
+    repository: test-application
+    tag: v1.1
   envs:
-    REDIS_HOST: localhost
+    REDIS_HOST: redis-service.redis.svc.cluster.local
     REDIS_PORT: 6379

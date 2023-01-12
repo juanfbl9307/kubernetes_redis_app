@@ -1,5 +1,5 @@
 import repository from '../repository/redis.js';
-const client = await repository.connectRedis("6379", "localhost");
+const client = await repository.connectRedis();
 
 //set a key value pair in redis
 async function set(key, value) {
