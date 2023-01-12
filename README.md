@@ -5,8 +5,9 @@
 
 ### On Kubernetes:
 1. Install [Kubernetes](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [Helm](https://helm.sh/docs/intro/install/)
-2. Run kubernetes-script.sh
-3. Expose by nodeport or ingress the service of the application
+2. Change the APPNAME variable in the script with the public docker repository.
+3. Run kubernetes-script.sh
+4. Expose by nodeport or ingress the service of the application
 ----
 
 ## 📄 Documentation 📄
